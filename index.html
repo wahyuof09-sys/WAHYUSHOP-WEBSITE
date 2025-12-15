@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAHYUSHOP WEBSITE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #0a0e17;
+            color: #f0f0f0;
+            line-height: 1.6;
+            padding: 20px;
+            background-image: 
+                linear-gradient(rgba(10, 14, 23, 0.95), rgba(10, 14, 23, 0.95)),
+                url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #fff 0%, #0088cc 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+        
+        /* Card */
+        .card {
+            background: rgba(20, 25, 40, 0.85);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-title i {
+            color: #0088cc;
+        }
+        
+        /* Payment */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .payment-item {
+            background: rgba(30, 35, 50, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #0088cc;
+        }
+        
+        .payment-label {
+            font-weight: bold;
+            color: #ccc;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .payment-value {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            word-break: break-all;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            background: #0088cc;
+            color: white;
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-copy {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-copy:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-copy.copied {
+            background: #2d572c;
+            color: #a3e9a4;
+        }
+        
+        .btn-telegram {
+            background: #0088cc;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .btn-telegram:hover {
+            background: #0077b5;
+        }
+        
+        /* Telegram Buttons */
+        .telegram-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .telegram-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* QR Code */
+        .qrcode-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 10px;
+            border: 1px solid #444;
+            cursor: pointer;
+        }
+        
+        .qrcode-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .qrcode-modal.active {
+            display: flex;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 40px;
+            cursor: pointer;
+        }
+        
+        /* Product List */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .product-item {
+            background: rgba(25, 30, 45, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .product-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #0088cc;
+        }
+        
+        .product-name {
+            font-weight: bold;
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .product-price {
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+        
+        .product-range {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        /* Order Button */
+        .btn-order {
+            background: #0088cc;
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 8px;
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            border: none;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .btn-order:hover {
+            background: #0077b5;
+        }
+        
+        /* Contact */
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .contact-icon {
+            font-size: 2rem;
+            color: #0088cc;
+            margin-bottom: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #888;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>WAHYUSHOP WEBSITE</h1>
+            <p class="subtitle">Daftar Produk & Layanan dengan Harga Terjangkau</p>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                    <div class="contact-label">Telegram</div>
+                    <div class="contact-value">@WahyuShop9</div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-broadcast-tower"></i>
+                    </div>
+                    <div class="contact-label">Channel</div>
+                    <div class="contact-value">@wahyuchannel0</div>
+                </div>
+            </div>
+        </header>
+        
+        <section class="card">
+            <h2 class="card-title"><i class="fas fa-shopping-cart"></i> Daftar Produk</h2>
+            
+            <div class="products-grid">
+                <div class="product-item">
+                    <div class="product-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <div class="product-name">MURBUG</div>
+                    <div class="product-price">Rp 3.000 - 10.000</div>
+                    <a href="https://t.me/WahyuShop9?text=Halo%20Wahyushop,%20saya%20ingin%20membeli%20MURBUG" target="_blank" class="btn btn-order">
+                        <i class="fab fa-telegram"></i> Pesan via Telegram
+                    </a>
+                </div>
+                
+                <div class="product-item">
+                    <div class="product-icon"><i class="fas fa-sun"></i></div>
+                    <div class="product-name">MURSUN</div>
+                    <div class="product-price">Rp 5.000</div>
+                    <a href="https://t.me/WahyuShop9?text=Halo%20Wahyushop,%20saya%20ingin%20membeli%20MURSUN" target="_blank" class="btn btn-order">
+                        <i class="fab fa-telegram"></i> Pesan via Telegram
+                    </a>
+                </div>
+                
+                <div class="product-item">
+                    <div class="product-icon"><i class="fas fa-file-powerpoint"></i></div>
+                    <div class="product-name">MURPP</div>
+                    <div class="product-price">Rp 12.000</div>
+                    <a href="https://t.me/WahyuShop9?text=Halo%20Wahyushop,%20saya%20ingin%20membeli%20MURPP" target="_blank" class="btn btn-order">
+                        <i class="fab fa-telegram"></i> Pesan via Telegram
+                    </a>
+                </div>
+                
+                <div class="product-item">
+                    <div class="product-icon"><i class="fas fa-code"></i></div>
+                    <div class="product-name">JASA WEBSITE PAYMENT</div>
+                    <div class="product-price">Rp 25.000</div>
+                    <a href="https://t.me/WahyuShop9?text=Halo%20Wahyushop,%20saya%20ingin%20jasa%20BUAT%20WEBSITE%20PAYMENT" target="_blank" class="btn btn-order">
+                        <i class="fab fa-telegram"></i> Pesan via Telegram
+                    </a>
+                </div>
+                
+                <div class="product-item">
+                    <div class="product-icon"><i class="fas fa-laptop-code"></i></div>
+                    <div class="product-name">JASA WEBSITE PRODUK</div>
+                    <div class="product-price">Rp 35.000</div>
+                    <a href="https://t.me/WahyuShop9?text=Halo%20Wahyushop,%20saya%20ingin%20jasa%20BUAT%20WEBSITE%20PRODUK" target="_blank" class="btn btn-order">
+                        <i class="fab fa-telegram"></i> Pesan via Telegram
+                    </a>
+                </div>
+                
+                <div class="product-item">
+                    <div class="product-icon"><i class="fas fa-robot"></i></div>
+                    <div class="product-name">JASA PASANG BOT</div>
+                    <div class="product-price">Rp 2.000</div>
+                    <a href="https://t.me/WahyuShop9?text=Halo%20Wahyushop,%20saya%20ingin%20jasa%20PASANG%20SCRIPT%20BOT" target="_blank" class="btn btn-order">
+                        <i class="fab fa-telegram"></i> Pesan via Telegram
+                    </a>
+                </div>
+                
+                <div class="product-item">
+                    <div class="product-icon"><i class="fas fa-egg"></i></div>
+                    <div class="product-name">JASA PASANG EGG</div>
+                    <div class="product-price">Rp 6.000</div>
+                    <a href="https://t.me/WahyuShop9?text=Halo%20Wahyushop,%20saya%20ingin%20jasa%20PASANG%20EGG" target="_blank" class="btn btn-order">
+                        <i class="fab fa-telegram"></i> Pesan via Telegram
+                    </a>
+                </div>
+                
+                <div class="product-item">
+                    <div class="product-icon"><i class="fas fa-ellipsis-h"></i></div>
+                    <div class="product-name">PRODUK LAINNYA</div>
+                    <div class="product-price">Hubungi Admin</div>
+                    <a href="https://t.me/WahyuShop9?text=Halo%20Wahyushop,%20saya%20ingin%20tanya%20produk%20lain" target="_blank" class="btn btn-order">
+                        <i class="fab fa-telegram"></i> Tanya Produk Lain
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="card">
+            <h2 class="card-title"><i class="fas fa-credit-card"></i> Pembayaran</h2>
+            <div class="payment-methods">
+                <div class="payment-item">
+                    <div class="payment-label"><i class="fas fa-wallet"></i> DANA</div>
+                    <div class="payment-value">
+                        <span id="dana-number">083152987363</span>
+                        <button class="btn btn-copy" data-clipboard-target="#dana-number">
+                            <i class="far fa-copy"></i> Salin
+                        </button>
+                    </div>
+                    <div class="status">AKTIF</div>
+                </div>
+                
+                <div class="payment-item">
+                    <div class="payment-label"><i class="fas fa-user"></i> Nama</div>
+                    <div class="payment-value">Ahmad Setio Wahyudi</div>
+                </div>
+                
+                <div class="payment-item">
+                    <div class="payment-label"><i class="fas fa-qrcode"></i> QRIS</div>
+                    <div style="text-align: center;">
+                        <img src="https://files.catbox.moe/bjvotq.jpg" alt="QR Code" class="qrcode-img" id="qrcode">
+                        <p style="margin-top: 10px; color: #aaa;">Klik untuk memperbesar</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="telegram-buttons">
+                <div class="telegram-item">
+                    <div class="telegram-label">Telegram Shop</div>
+                    <a href="http://t.me/WahyuShop9" target="_blank" class="btn btn-telegram">
+                        <i class="fab fa-telegram"></i> @WahyuShop9
+                    </a>
+                </div>
+                
+                <div class="telegram-item">
+                    <div class="telegram-label">Channel Info</div>
+                    <a href="https://t.me/wahyuchannel0" target="_blank" class="btn btn-telegram">
+                        <i class="fab fa-telegram"></i> @wahyuchannel0
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="card">
+            <h2 class="card-title"><i class="fas fa-info-circle"></i> Cara Order</h2>
+            <div style="padding: 15px; background-color: rgba(0, 0, 0, 0.2); border-radius: 8px;">
+                <ul style="margin-left: 20px; color: #ccc;">
+                    <li style="margin-bottom: 10px;">Klik tombol "Pesan via Telegram" pada produk</li>
+                    <li style="margin-bottom: 10px;">Kirim pesan otomatis ke admin</li>
+                    <li style="margin-bottom: 10px;">Tunggu respon admin</li>
+                    <li style="margin-bottom: 10px;">Bayar via DANA/QRIS</li>
+                    <li>Kirim bukti transfer</li>
+                </ul>
+            </div>
+        </section>
+        
+        <footer>
+            <p>&copy; 2023 Wahyushop | Telegram: @WahyuShop9 | Channel: @wahyuchannel0</p>
+        </footer>
+    </div>
+    
+    <!-- Modal QR Code -->
+    <div class="qrcode-modal" id="qrcode-modal">
+        <span class="close-modal" id="close-modal">&times;</span>
+        <div class="modal-content">
+            <img src="https://files.catbox.moe/bjvotq.jpg" alt="QR Code">
+        </div>
+    </div>
+    
+    <script>
+        // Copy DANA
+        const copyButtons = document.querySelectorAll('.btn-copy');
+        copyButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-clipboard-target');
+                const targetElement = document.querySelector(targetId);
+                const textToCopy = targetElement.textContent;
+                
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
+                    this.classList.add('copied');
+                    
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.classList.remove('copied');
+                    }, 2000);
+                });
+            });
+        });
+        
+        // QR Code Modal
+        const qrcode = document.getElementById('qrcode');
+        const qrcodeModal = document.getElementById('qrcode-modal');
+        const closeModal = document.getElementById('close-modal');
+        
+        qrcode.addEventListener('click', () => {
+            qrcodeModal.classList.add('active');
+        });
+        
+        closeModal.addEventListener('click', () => {
+            qrcodeModal.classList.remove('active');
+        });
+        
+        qrcodeModal.addEventListener('click', (e) => {
+            if (e.target === qrcodeModal) {
+                qrcodeModal.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
